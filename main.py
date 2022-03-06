@@ -10,7 +10,7 @@ import config
 
 # constants should be capitals
 DATEBASE_LOCATION   = 'sqlite://my_played_tracks.sqlite'
-USER_ID             = config.USER_NAME
+USER_ID             = config.USER_ID
 TOKEN               = config.TOKEN
 
 if __name__ == "__main__":
@@ -35,10 +35,10 @@ if __name__ == "__main__":
 
     # print(data)
 
-    song_names = []
-    artist_names = []
-    played_at_list = []
-    timestamps = []
+    song_names      = []
+    artist_names    = []
+    played_at_list  = []
+    timestamps      = []
 
         # Extracting only the relevant bits of data from the json object
     for song in data["items"]:
