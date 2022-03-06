@@ -40,15 +40,16 @@ if __name__ == "__main__":
     played_at_list  = []
     timestamps      = []
 
-        # Extracting only the relevant bits of data from the json object
+    # Extracting only the relevant bits of data from the json object
     for song in data["items"]:
         song_names.append(song["track"]["name"])
         artist_names.append(song["track"]["album"]["artists"][0]["name"])
         played_at_list.append(song["played_at"])
         timestamps.append(song["played_at"][0:10])
 
-        # Prepare a dictionary in order to turn it into a pandas dataframe below
+    # Prepare a dictionary in order to turn it into a pandas dataframe below
     song_dict = {
+
          "song_name"     : song_names
         ,"artist_name"   : artist_names
         ,"played_at"     : played_at_list
