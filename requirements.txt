@@ -1,1 +1,7 @@
 pandas
+numpy
+sqlalchemy
+requests
+datetime
+json
+sqlite3
