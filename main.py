@@ -1,5 +1,4 @@
-from concurrent.futures import Executor
-from numpy import append
+
 import sqlalchemy
 import pandas as pd
 from sqlalchemy.orm import sessionmaker
@@ -11,12 +10,15 @@ import sqlite3
 import config
 
 # constants should be capitals
-DATABASE_LOCATION   = 'sqlite:///my_played_tracks.sqlite'
+DATABASE_LOCATION   = 'sqlite:///spotify_top_played/my_played_tracks.sqlite'
 USER_ID             = config.USER_ID
 TOKEN               = config.TOKEN
 
 # pandas options
 pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', None)
+pd.set_option('display.max_colwidth', None)
 
 def check_if_valid_data(df: pd.DataFrame) -> bool:
 
@@ -90,6 +92,13 @@ if __name__ == "__main__":
 
     song_df = pd.DataFrame(song_dict, columns = ["song_name", "artist_name", "played_at", "timestamp"])
 
+    song_df.rename(columns = {
+                                'song_name'     : 'NameSong'
+                                ,'artist_name'  : 'NameArtist'
+                                ,'played_at'    : 'DateTimePlayed'
+                                ,'timestamp'    : 'DatePlayed'
+    }, inplace = True)
+
     # validate data
 
     # if check_if_valid_data(song_df):
@@ -99,27 +108,27 @@ if __name__ == "__main__":
 
     # LOAD data
 
-    engine  = sqlalchemy.create_engine(DATABASE_LOCATION)
-    conn    = sqlite3.connect('my_played_tracks.sqlite')
-    cursor  = conn.cursor()
+    # engine  = sqlalchemy.create_engine(DATABASE_LOCATION)
+    # conn    = sqlite3.connect('my_played_tracks.sqlite')
+    # cursor  = conn.cursor()
 
-    sql_query = '''
-                        CREATE TABLE IF NOT EXISTS PlayedTracks (
+    # sql_query = '''
+    #                     CREATE TABLE IF NOT EXISTS PlayedTracks (
 
-                             NameSong       VARCHAR(300)
-                            ,NameArtist     VARCHAR(300)
-                            ,PlayedAt       VARCHAR(300)
-                            ,TimeStamp      DATETIME
-                            ,CONSTRAINT primary_key_constraint PRIMARY KEY (PlayedAt)
-                        )
-                '''
+    #                          NameSong       VARCHAR(300)
+    #                         ,NameArtist     VARCHAR(300)
+    #                         ,PlayedAt       VARCHAR(300)
+    #                         ,TimeStamp      DATETIME
+    #                         ,CONSTRAINT primary_key_constraint PRIMARY KEY (PlayedAt)
+    #                     )
+    #             '''
 
-    cursor.execute(sql_query)
-    print('table created successfully')
+    # cursor.execute(sql_query)
+    # print('table created successfully')
 
-    try:
-        song_df.to_sql('my_played_tracks', engine, index = False, if_exists = 'append')
-    except:
-        print('data already exists in the database')
+    # try:
+    #     song_df.to_sql('my_played_tracks', engine, index = False, if_exists = 'append')
+    # except:
+    #     print('data already exists in the database')
 
-    conn.close()
+    # conn.close()
